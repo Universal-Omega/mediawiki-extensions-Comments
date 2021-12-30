@@ -165,30 +165,6 @@ class CommentFunctions {
 	}
 
 	/**
-	 * Fetches the list of blocked users from the database
-	 *
-	 * @param User $user User whose block list we're loading
-	 * @return array List of comment-blocked users' user names
-	 */
-	public static function getBlockList( $user ) {
-		$blockList = [];
-		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select(
-			'Comments_block',
-			'cb_actor_blocked',
-			[ 'cb_actor' => $user->getActorId() ],
-			__METHOD__
-		);
-		foreach ( $res as $row ) {
-			$blocked = User::newFromActorId( $row->cb_actor_blocked );
-			if ( $blocked ) {
-				$blockList[] = $blocked->getName();
-			}
-		}
-		return $blockList;
-	}
-
-	/**
 	 * @todo Apparently unused as of 3 January 2020
 	 * @param User $user Has this user...
 	 * @param User $blocked ...blocked comments from this user?
